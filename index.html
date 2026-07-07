@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Interactive Login</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Container for Three.js 3D Background -->
+    <div id="canvas-container"></div>
+    
+    <!-- Login Form Overlay -->
+    <div class="login-container">
+        <div class="glass-panel">
+            <h2>DevScope AI</h2>
+            <p>Enter your details to proceed</p>
+            
+            <form id="login-form">
+                <div class="input-group">
+                    <input type="text" id="username" required autocomplete="off">
+                    <label for="username">Username / Email</label>
+                </div>
+                
+                <div class="input-group">
+                    <input type="password" id="password" required autocomplete="off">
+                    <label for="password">Password</label>
+                </div>
+                
+                <div class="options">
+                    <label class="remember">
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a href="#" class="forgot">Forgot Password?</a>
+                </div>
+                
+                <button type="submit" class="login-btn">
+                    <span>Login</span>
+                </button>
+                
+                <div class="social-login-container">
+                    <p class="social-text">Or continue with</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon google" data-social="Google"><i class="fab fa-google"></i></a>
+                        <a href="#" class="social-icon facebook" data-social="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon linkedin" data-social="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <p class="signup-text">Don't have an account? <a href="#" id="toggle-signup">Sign up</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Three.js Library from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
