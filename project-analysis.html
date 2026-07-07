@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Deep Dive Analysis</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #e2e8f0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 40px 20px;
+            overflow-y: auto;
+        }
+        .analysis-container {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 50px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            color: #f8fafc;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .repo-name {
+            color: #38bdf8;
+            font-weight: 700;
+        }
+        .badge {
+            background: rgba(162, 155, 254, 0.2);
+            color: #a29bfe;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            display: inline-block;
+            letter-spacing: 0.5px;
+        }
+        .content-body {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #cbd5e1;
+            background: rgba(15, 23, 42, 0.5);
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 4px solid #38bdf8;
+        }
+        .content-body p {
+            margin-bottom: 20px;
+        }
+        .content-body ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        .content-body li {
+            margin-bottom: 10px;
+        }
+        .content-body strong {
+            color: #f8fafc;
+        }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #94a3b8;
+            text-decoration: none;
+            margin-bottom: 30px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .back-btn:hover {
+            color: #f8fafc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="analysis-container">
+        <a href="dashboard.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        
+        <h1><i class="fas fa-microchip" style="color: #a29bfe;"></i> <span class="repo-name" id="display-repo-name">Repository</span>: How It Works</h1>
+        <div class="badge"><i class="fas fa-robot"></i> DEEP DIVE AI ANALYSIS</div>
+        
+        <div class="content-body" id="analysis-content">
+            <div style="text-align: center; padding: 40px;">
+                <i class="fas fa-spinner fa-spin fa-2x"></i>
+                <p style="margin-top: 15px;">Loading AI Analysis...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const summary = localStorage.getItem("aiProjectSummary");
+            const repoName = localStorage.getItem("analyzedRepoName");
+            
+            if(repoName) {
+                document.getElementById("display-repo-name").textContent = repoName;
+            }
+            
+            const contentDiv = document.getElementById("analysis-content");
+            if(summary) {
+                // Formatting Markdown to HTML safely
+                let formattedHtml = summary
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\n\n/g, '</p><p>')
+                    .replace(/\n- /g, '<br>• ');
+                
+                contentDiv.innerHTML = `<p>${formattedHtml}</p>`;
+            } else {
+                contentDiv.innerHTML = `
+                    <div style="text-align: center; color: #ef4444; padding: 40px;">
+                        <i class="fas fa-exclamation-triangle fa-3x" style="margin-bottom: 15px;"></i>
+                        <h3>No Analysis Found</h3>
+                        <p>Please go back to the dashboard, analyze a repository first, and try again.</p>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

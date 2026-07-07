@@ -68,6 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Reset state
             activeNodes = [];
             componentData = {};
+            window.aiCodeContext = ""; // Reset code context for new analysis!
             
             // Fetch real data from GitHub API
             if(owner !== "unknown") {
@@ -93,11 +94,37 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
                     }
 
-                    // --- NEW: Fetch Entire File Tree ---
+                    // --- NEW: Fetch Entire File Tree & Core Files ---
                     const branch = repoData.default_branch || "main";
                     const treeRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`);
                     const treeData = treeRes.ok ? await treeRes.json() : { tree: [] };
-                    const files = treeData.tree ? treeData.tree.map(f => f.path).slice(0, 100) : [];
+                    
+                    const allFiles = treeData.tree ? treeData.tree.filter(f => f.type === "blob") : [];
+                    const files = allFiles.map(f => f.path).slice(0, 100);
+                    
+                    // Fetch top 5 actual source code files for deep AI analysis
+                    const importantExts = ['.js', '.py', '.java', '.go', '.ts', '.html', '.css', '.json', '.yml', '.php'];
+                    const importantFiles = allFiles
+                        .filter(f => importantExts.some(ext => f.path.endsWith(ext)))
+                        .filter(f => !f.path.includes('node_modules') && !f.path.includes('package-lock') && !f.path.includes('dist') && !f.path.includes('build'))
+                        .slice(0, 5);
+                        
+                    let codeContext = "";
+                    if(importantFiles.length > 0) {
+                        try {
+                            const filePromises = importantFiles.map(async (f) => {
+                                const rawRes = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${f.path}`);
+                                if(rawRes.ok) {
+                                    const text = await rawRes.text();
+                                    return `\n--- FILE: ${f.path} ---\n${text.substring(0, 2000)}`; // limit per file
+                                }
+                                return "";
+                            });
+                            const contents = await Promise.all(filePromises);
+                            codeContext = "\n\nActual Source Code Samples:\n" + contents.join("");
+                            window.aiCodeContext = codeContext; // Save globally for ZARA Chat & Docs!
+                        } catch(e) { console.error("Error fetching raw code", e); }
+                    }
                     
                     // Update UI with real Repo Name
                     if(repoData.name) {
@@ -111,19 +138,20 @@ document.addEventListener("DOMContentLoaded", () => {
                     // --- REAL AI GROQ INTEGRATION ---
                     try {
                         const groqApiKey = "YOUR_GROQ_API_KEY";
-                        const prompt = `You are a Senior Software Architecture Analyzer. Analyze the repository details including the README and Full File Tree.
+                        const prompt = `You are a Senior Software Architecture Analyzer. Analyze the repository details, README, File Tree, and Actual Source Code Samples.
 Return ONLY a valid JSON object with:
 1. "nodes": array of architectural components present. Choose exact IDs from: ["frontend", "backend", "api", "database", "docker", "cicd", "cloud", "ai", "blockchain", "security", "redis"].
 Each object in the array must have: "id", "tech" (e.g. "React"), and "desc" (1-sentence role description).
-2. "projectSummary": A highly detailed, long, 4-5 paragraph explanation in plain, easy-to-understand English summarizing EXACTLY what this entire project does. Describe the features, the tech stack, what the developer built line-by-line based on the file tree, and who the intended users might be. Do not be brief; be very descriptive so a manager can fully understand everything going on. **CRITICAL: At the very end of this summary, provide a bulleted list of 3-5 KEY POINTS.**
+2. "projectSummary": A highly detailed, long, 4-5 paragraph explanation in plain, easy-to-understand English summarizing EXACTLY what this entire project does. Describe the features, the tech stack, what the developer built line-by-line based on the file tree and code samples, and who the intended users might be. Do not be brief; be very descriptive. **CRITICAL: You MUST explicitly mention specific functions, file names, variables, or logic you see in the "Actual Source Code Samples" to prove you read the code.** At the very end of this summary, provide a bulleted list of 3-5 KEY POINTS.
 3. "projectScore": an object with keys "overall", "architecture", "security", "performance", "scalability", "maintainability", "documentation", "testing", "deployment". Each value must be an integer between 40 and 100 representing the score for that area based on best practices.
-4. "weakAreas": an array of 4-6 short strings (e.g. "Missing Unit Tests") identifying weaknesses in the codebase.
+4. "weakAreas": an array of 4-6 short strings (e.g. "Missing Unit Tests") identifying weaknesses in the actual codebase.
 5. "suggestions": an array of 4-6 short strings (e.g. "Add Unit & Integration Tests") suggesting actionable improvements corresponding to the weak areas.
 Repo: ${repoData.name}
 Lang: ${mainLang}
 Topics: ${topics.join(", ")}
 File Tree (Top 100): ${files.join(", ")}
-README: ${readmeText.substring(0, 2500)}`;
+README: ${readmeText.substring(0, 2500)}
+${codeContext}`;
 
                         const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                             method: "POST",
@@ -155,9 +183,17 @@ README: ${readmeText.substring(0, 2500)}`;
                         // Store the easy-to-understand summary globally
                         window.aiProjectSummary = aiContent.projectSummary;
                         window.aiProjectScore = aiContent.projectScore;
+                        
+                        // Save to localStorage for the separate 'How it works' page
+                        localStorage.setItem("aiProjectSummary", aiContent.projectSummary);
+                        localStorage.setItem("analyzedRepoName", repoData.name || owner + "/" + repo);
                         window.aiWeakAreas = aiContent.weakAreas;
                         window.aiSuggestions = aiContent.suggestions;
                         
+                        // Inject actual source code into ZARA Chat Context!
+                        if(window.aiCodeContext && chatHistory.length >= 1) {
+                            chatHistory[0].content += window.aiCodeContext;
+                        }
 
                         if(aiContent.nodes && Array.isArray(aiContent.nodes)) {
                             aiContent.nodes.forEach(n => {
@@ -590,7 +626,8 @@ README: ${readmeText.substring(0, 2500)}`;
 4. "dependencies": array of 8 key libraries/frameworks used.
 5. "techStack": array of 5 objects { "category": "Frontend", "tech": "React, Tailwind" }
 
-Context: Repo ${owner}/${repo}`;
+Context: Repo ${owner}/${repo}
+${window.aiCodeContext || ''}`;
 
                 const groqApiKey = "YOUR_GROQ_API_KEY";
                 const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
@@ -735,6 +772,18 @@ Context: Repo ${owner}/${repo}`;
         });
     }
 
+    // --- VIEW HOW IT WORKS BUTTON ---
+    const howItWorksBtn = document.getElementById("open-how-it-works-btn");
+    if(howItWorksBtn) {
+        howItWorksBtn.addEventListener("click", () => {
+            if(!window.aiProjectSummary) {
+                alert("Please analyze a repository first!");
+                return;
+            }
+            window.open("project-analysis.html", "_blank");
+        });
+    }
+
         // --- DOWNLOAD DOCS BUTTON ---
     const downloadDocsBtn = document.getElementById("download-docs-btn");
     if(downloadDocsBtn) {
@@ -751,7 +800,8 @@ Context: Repo ${owner}/${repo}`;
                 const groqApiKey = "YOUR_GROQ_API_KEY";
                 const prompt = `Based on this project summary: '${window.aiProjectSummary.substring(0, 1000)}', generate full markdown documentation for this project.
 Return ONLY a JSON object with 6 keys: "readme", "api", "database", "architecture", "deployment", "userGuide". 
-Each key should contain a formatted Markdown string (with headers, bullet points, code blocks) representing that document. Keep each document concise but professional (about 200 words each).`;
+Each key should contain a formatted Markdown string (with headers, bullet points, code blocks) representing that document. Keep each document concise but professional (about 200 words each).
+${window.aiCodeContext || ''}`;
 
                 const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                     method: "POST",
@@ -848,7 +898,8 @@ Each key should contain a formatted Markdown string (with headers, bullet points
             const groqApiKey = "YOUR_GROQ_API_KEY";
             const prompt = `Act as the ${agentName}. You are a senior engineer analyzing this software project. 
 Here is the project summary: '${window.aiProjectSummary}'.
-Provide a 2-3 paragraph detailed analysis of the project from the specific perspective of your role (e.g., if you are the Database Agent, focus on the schema. If Security, focus on vulnerabilities). Keep it concise, formatted in markdown.`;
+Provide a 2-3 paragraph detailed analysis of the project from the specific perspective of your role (e.g., if you are the Database Agent, focus on the schema. If Security, focus on vulnerabilities). Keep it concise, formatted in markdown.
+${window.aiCodeContext || ''}`;
 
             const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                 method: "POST",
@@ -882,6 +933,8 @@ Provide a 2-3 paragraph detailed analysis of the project from the specific persp
             messages.innerHTML += `<div class="chat-msg bot-msg"><div class="msg-bubble" style="color: #ff7675;">Analysis failed: ${e.message}</div></div>`;
         }
     };
+
+
 
 
 
