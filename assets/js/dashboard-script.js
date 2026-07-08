@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 const rawRes = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${f.path}`);
                                 if(rawRes.ok) {
                                     const text = await rawRes.text();
-                                    return `\n--- FILE: ${f.path} ---\n${text.substring(0, 500)}`; // limit per file
+                                    return `\n--- FILE: ${f.path} ---\n${text.substring(0, 3000)}`; // limit per file
                                 }
                                 return "";
                             });
@@ -149,20 +149,20 @@ document.addEventListener("DOMContentLoaded", () => {
                     // --- REAL AI GROQ INTEGRATION ---
                     try {
                         const groqApiKey = getGroqApiKey();
-                if (!groqApiKey) throw new Error("API Key required");
+                        if (!groqApiKey) throw new Error("API Key required");
                         const prompt = `You are a Senior Software Architecture Analyzer. Analyze the repository details, README, File Tree, and Actual Source Code Samples.
 Return ONLY a valid JSON object with:
-1. "nodes": array of architectural components present. Choose exact IDs from: ["frontend", "backend", "api", "database", "docker", "cicd", "cloud", "ai", "blockchain", "security", "redis"].
-Each object in the array must have: "id", "tech" (e.g. "React"), and "desc" (1-sentence role description).
-2. "projectSummary": A single MARKDOWN STRING containing a simple, easy-to-understand 1-2 paragraph explanation in plain English summarizing exactly what this entire project does. Avoid overly technical jargon. Explain it in a way that anyone can understand. At the end of THIS STRING, provide a bulleted list of 3 KEY POINTS. Do NOT make this an object; it must be a single string.
+1. "nodes": array of architectural components present. Choose exact IDs from: ["frontend", "backend", "api", "database", "docker", "cicd", "cloud", "ai", "blockchain", "security", "redis"]. Each object must have: "id", "tech", and "desc".
+2. "projectSummary": A single MARKDOWN STRING containing a DEEP, COMPREHENSIVE, AND PROFESSIONAL analysis (4-5 paragraphs) fully explaining the ENTIRE project's architecture, technologies, data flow, and codebase. At the end of THIS STRING, provide a bulleted list of 3 KEY POINTS. Do NOT make this an object; it must be a single string.
 3. "projectScore": an object with keys "overall", "architecture", "security", "performance", "scalability", "maintainability", "documentation", "testing", "deployment". Each value must be an integer between 40 and 100 representing the score for that area based on best practices.
-4. "weakAreas": an array of 4-6 short strings (e.g. "Missing Unit Tests") identifying weaknesses in the actual codebase.
-5. "suggestions": an array of 4-6 short strings (e.g. "Add Unit & Integration Tests") suggesting actionable improvements corresponding to the weak areas.
+4. "weakAreas": an array of 4-6 short strings identifying weaknesses in the actual codebase.
+5. "suggestions": an array of 4-6 short strings suggesting actionable improvements.
+
 Repo: ${repoData.name}
 Lang: ${mainLang}
 Topics: ${topics.join(", ")}
 File Tree (Top 100): ${files.join(", ")}
-README: ${readmeText.substring(0, 500)}
+README: ${readmeText.substring(0, 3000)}
 ${codeContext}`;
 
                         const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
