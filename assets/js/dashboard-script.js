@@ -180,14 +180,16 @@ ${codeContext}`;
                         if(groqData.error) {
                             throw new Error(groqData.error.message || "Groq API Error");
                         }
-
-                        let contentStr = groqData.choices[0].message.content;
-                        // Strip markdown backticks if the model added them
-                        const jsonMatch = contentStr.match(/\{[\s\S]*\}/);
-                        if (jsonMatch) contentStr = jsonMatch[0];
-                        else contentStr = contentStr.replace(/```json/gi, "").replace(/```/g, "").trim();
                         
-                        const aiContent = JSON.parse(contentStr);
+                        let aiContent;
+                        try {
+                            let contentStr = groqData.choices[0].message.content;
+                            let jsonMatch = contentStr.match(/\{[\s\S]*\}/);
+                            let cleanStr = jsonMatch ? jsonMatch[0] : contentStr.replace(/```json/gi, "").replace(/```/g, "").trim();
+                            aiContent = JSON.parse(cleanStr);
+                        } catch(parseErr) {
+                            throw new Error("Failed to parse JSON response from AI: " + parseErr.message);
+                        }
                         
                         // Store the easy-to-understand summary globally
                         window.aiProjectSummary = aiContent.projectSummary;
@@ -233,10 +235,11 @@ ${codeContext}`;
                                 }
                             });
                         }
-                    } catch(e) {
-                        console.error("Groq AI failed, falling back", e);
-                        // Fallback Summary
-                        const fallbackSummary = "<div style='color: #ff7675; font-weight: bold; margin-bottom: 15px;'><i class='fas fa-exclamation-triangle'></i> AI Analysis Trimmed</div>ZARA AI analyzed this codebase using a fallback model because the source code was too large.<br><br>The project appears to be a functional web application with modular components.";
+                    } catch(err) {
+                        console.error("Groq Analysis Error:", err);
+                        const fallbackSummary = `<div style='color: #ff7675; font-weight: bold; margin-bottom: 15px;'><i class='fas fa-exclamation-triangle'></i> Analysis Error</div>Error details: ${err.message}. Check console for more info.`;
+                        
+                        const nodes = [{ id: "frontend" }, { id: "backend" }];
                         window.aiProjectSummary = fallbackSummary;
                         window.aiProjectScore = { overall: 85, architecture: 80, security: 85, performance: 90, scalability: 85, maintainability: 80, documentation: 75, testing: 80, deployment: 90 };
                         
