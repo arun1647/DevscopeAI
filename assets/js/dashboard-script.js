@@ -588,7 +588,7 @@ ${codeContext}`;
         const div = document.createElement("div");
         div.className = `message ${role}-message`;
         if (role === "ai") {
-            div.innerHTML = `<img src="zara_ai.jpg" style="width:25px;height:25px;border-radius:50%;margin-right:8px;vertical-align:middle;object-fit:cover;"> <div class="msg-content">${text}</div>`;
+            div.innerHTML = `<img src="assets/images/zara_ai.jpg" style="width:25px;height:25px;border-radius:50%;margin-right:8px;vertical-align:middle;object-fit:cover;"> <div class="msg-content">${text}</div>`;
         } else {
             div.innerHTML = `<div class="msg-content">${text}</div>`;
         }
@@ -606,7 +606,7 @@ ${codeContext}`;
 
         const typingDiv = document.createElement("div");
         typingDiv.className = "message ai-message typing-indicator";
-        typingDiv.innerHTML = `<img src="zara_ai.jpg" style="width:25px;height:25px;border-radius:50%;margin-right:8px;vertical-align:middle;object-fit:cover;"> ZARA ❤️ is typing...`;
+        typingDiv.innerHTML = `<img src="assets/images/zara_ai.jpg" style="width:25px;height:25px;border-radius:50%;margin-right:8px;vertical-align:middle;object-fit:cover;"> ZARA ❤️ is typing...`;
         chatMessages.appendChild(typingDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
         
