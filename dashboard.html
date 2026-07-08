@@ -167,18 +167,76 @@
 
                         <!-- Left Analytics Panel -->
             <aside class="left-analytics-panel">
-                <!-- HOW IT WORKS -->
-                    <div class="analytics-header" style="margin-bottom: 10px;">PROJECT DEEP DIVE</div>
-                    <p style="font-size: 13px; color: #a0a0a0; margin-bottom: 20px; line-height: 1.5;">
-                        Read ZARA's deep analysis explaining exactly how this specific codebase works line-by-line.
-                    </p>
-                    <button class="action-btn" id="open-how-it-works-btn" style="width: 100%; display: flex; justify-content: center; align-items: center; gap: 10px; background: rgba(56, 189, 248, 0.2); border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;">
-                        <i class="fas fa-book-reader"></i> Read Full Analysis
-                    </button>
-                </div>
+
 
                 <!-- PROJECT SCORE -->
-                <div class="analytics-section">
+                
+                <!-- WEAK AREAS -->
+                
+
+                <!-- SUGGESTIONS -->
+                
+
+                <!-- AUTO DOCUMENTATION -->
+                
+                
+            </aside>
+
+            <!-- Right Info Panel -->
+            <aside class="info-panel">
+                <div class="info-header">COMPONENT INFO</div>
+                
+                <div class="info-content" id="info-content">
+                    <h3 id="info-title">Authentication Service</h3>
+                    <p class="subtitle" id="info-subtitle">Handles user authentication</p>
+                    
+                    <ul class="meta-list">
+                        <li><span class="label">Type:</span> <span class="val" id="info-type">Microservice</span></li>
+                        <li><span class="label">Technology:</span> <span class="val" id="info-tech">Node.js</span></li>
+                        <li><span class="label">Language:</span> <span class="val" id="info-lang">JavaScript</span></li>
+                        <li><span class="label">Lines of Code:</span> <span class="val" id="info-loc">1,253</span></li>
+                        <li><span class="label">Files:</span> <span class="val" id="info-files">18</span></li>
+                        <li><span class="label">Dependencies:</span> <span class="val" id="info-dep">12</span></li>
+                        <li><span class="label">Status:</span> <span class="val status-active">Active</span></li>
+                    </ul>
+                    
+                    <div class="desc-box">
+                        <h4>DESCRIPTION</h4>
+                        <p id="info-desc">This service handles user registration, login, logout, password reset and JWT token management.</p>
+                    </div>
+                    
+                    <button class="view-code-btn">View Code</button>
+                </div>
+                <!-- AUTO DOCUMENTATION -->
+                
+                
+            </aside>
+        </main>
+    </div>
+
+    <!-- Deep Analysis Slide-in Panel -->
+    <div id="da-slider" class="slide-panel">
+        <div class="slide-header">
+            <h2>Deep Architecture Analysis</h2>
+            <button id="close-slider-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="da-loading" class="da-loading active">
+            <div class="pulse-loader"></div>
+            <p>Llama 3 AI is analyzing the architecture deep structure...</p>
+        </div>
+        <div class="da-grid" id="da-grid" style="display: none;">
+            
+            
+        <div class="da-executive-summary" id="da-summary-box" style="margin: 20px 40px; padding: 20px; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 12px;">
+            <h3><i class="fas fa-file-alt"></i> PROJECT ANALYSIS (HOW IT WORKS)</h3>
+            <div class="da-summary-text" id="da-summary-text" style="color: #cbd5e1; line-height: 1.6;">
+                <!-- AI Summary Injected Here -->
+                Analyzing project architecture...
+            </div>
+        </div>
+
+        <div class="da-insights-row" style="display:flex; gap:20px; margin: 20px 40px; align-items: stretch;">
+            <div style="flex:1;"><div class="analytics-section">
                     <div class="analytics-header">PROJECT SCORE</div>
                     
                     <div class="score-top">
@@ -239,9 +297,8 @@
                             <span class="bar-val" id="val-deploy">85%</span>
                         </li>
                     </ul>
-                </div>
-                <!-- WEAK AREAS -->
-                <div class="analytics-section">
+                </div></div>
+            <div style="flex:1;"><div class="analytics-section">
                     <div class="analytics-header">WEAK AREAS</div>
                     <ul class="weak-areas-list" id="ai-weak-areas">
                         <li><i class="fas fa-exclamation-triangle warning-icon"></i> Missing Unit Tests</li>
@@ -251,10 +308,8 @@
                         <li><i class="fas fa-exclamation-triangle warning-icon"></i> Error Handling Incomplete</li>
                         <li><i class="fas fa-exclamation-triangle warning-icon"></i> Weak Password Policy</li>
                     </ul>
-                </div>
-
-                <!-- SUGGESTIONS -->
-                <div class="analytics-section">
+                </div></div>
+            <div style="flex:1;"><div class="analytics-section">
                     <div class="analytics-header">SUGGESTIONS</div>
                     <ul class="suggestions-list" id="ai-suggestions">
                         <li><i class="fas fa-check-square success-icon"></i> Add Unit & Integration Tests</li>
@@ -264,22 +319,10 @@
                         <li><i class="fas fa-check-square success-icon"></i> Improve Error Handling</li>
                         <li><i class="fas fa-check-square success-icon"></i> Enable Strong Password Policy</li>
                     </ul>
-                </div>
-
-                <!-- SUGGESTIONS -->
-                <div class="analytics-section">
-                    <div class="analytics-header">SUGGESTIONS</div>
-                    <ul class="suggestions-list">
-                        <li><i class="fas fa-check-square success-icon"></i> Add Unit & Integration Tests</li>
-                        <li><i class="fas fa-check-square success-icon"></i> Add Swagger Documentation</li>
-                        <li><i class="fas fa-check-square success-icon"></i> Break Large Components</li>
-                        <li><i class="fas fa-check-square success-icon"></i> Remove Duplicate Code</li>
-                        <li><i class="fas fa-check-square success-icon"></i> Improve Error Handling</li>
-                        <li><i class="fas fa-check-square success-icon"></i> Enable Strong Password Policy</li>
-                    </ul>
-                </div>
-                <!-- AUTO DOCUMENTATION -->
-                <div class="analytics-section">
+                </div></div>
+        </div>
+        <div class="da-insights-row" style="margin: 0 40px 20px 40px;">
+            <div class="analytics-section">
                     <div class="analytics-header">AUTO DOCUMENTATION</div>
                     <ul class="docs-list">
                         <li>
@@ -327,274 +370,8 @@
                     </ul>
                     <button id="download-docs-btn" class="primary-btn" style="margin-top: 15px; padding: 10px;">Download All</button>
                 </div>
-                <!-- AI AGENTS -->
-                <div class="analytics-section">
-                    <div class="analytics-header">AI AGENTS</div>
-                    <ul class="agents-list">
-                        <li onclick="activateAgent('Architecture Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #3a7bd5, #00d2ff);"><i class="fas fa-project-diagram"></i></div>
-                            <div class="agent-info">
-                                <h4>Architecture Agent</h4>
-                                <p>Explains system architecture</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Backend Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #6c5ce7, #a29bfe);"><i class="fas fa-server"></i></div>
-                            <div class="agent-info">
-                                <h4>Backend Agent</h4>
-                                <p>Explains backend logic</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Frontend Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);"><i class="fas fa-desktop"></i></div>
-                            <div class="agent-info">
-                                <h4>Frontend Agent</h4>
-                                <p>Explains UI/UX & components</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Database Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #00b894, #55efc4);"><i class="fas fa-database"></i></div>
-                            <div class="agent-info">
-                                <h4>Database Agent</h4>
-                                <p>Explains DB schema & relations</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Security Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #05c46b, #0be881);"><i class="fas fa-shield-alt"></i></div>
-                            <div class="agent-info">
-                                <h4>Security Agent</h4>
-                                <p>Finds vulnerabilities</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Performance Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #ff5e62, #ff9966);"><i class="fas fa-tachometer-alt"></i></div>
-                            <div class="agent-info">
-                                <h4>Performance Agent</h4>
-                                <p>Detects bottlenecks</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Documentation Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #eb3349, #f45c43);"><i class="fas fa-file-alt"></i></div>
-                            <div class="agent-info">
-                                <h4>Documentation Agent</h4>
-                                <p>Generates docs</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Refactoring Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #f39c12, #f1c40f);"><i class="fas fa-code"></i></div>
-                            <div class="agent-info">
-                                <h4>Refactoring Agent</h4>
-                                <p>Suggests improvements</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Testing Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #e1b12c, #fbc531);"><i class="fas fa-vial"></i></div>
-                            <div class="agent-info">
-                                <h4>Testing Agent</h4>
-                                <p>Generates test cases</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Deployment Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #0984e3, #74b9ff);"><i class="fas fa-cloud-upload-alt"></i></div>
-                            <div class="agent-info">
-                                <h4>Deployment Agent</h4>
-                                <p>Explains CI/CD & infra</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Business Logic Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #636e72, #b2bec3);"><i class="fas fa-briefcase"></i></div>
-                            <div class="agent-info">
-                                <h4>Business Logic Agent</h4>
-                                <p>Explains flows & logic</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </aside>
-
-            <!-- Right Info Panel -->
-            <aside class="info-panel">
-                <div class="info-header">COMPONENT INFO</div>
-                
-                <div class="info-content" id="info-content">
-                    <h3 id="info-title">Authentication Service</h3>
-                    <p class="subtitle" id="info-subtitle">Handles user authentication</p>
-                    
-                    <ul class="meta-list">
-                        <li><span class="label">Type:</span> <span class="val" id="info-type">Microservice</span></li>
-                        <li><span class="label">Technology:</span> <span class="val" id="info-tech">Node.js</span></li>
-                        <li><span class="label">Language:</span> <span class="val" id="info-lang">JavaScript</span></li>
-                        <li><span class="label">Lines of Code:</span> <span class="val" id="info-loc">1,253</span></li>
-                        <li><span class="label">Files:</span> <span class="val" id="info-files">18</span></li>
-                        <li><span class="label">Dependencies:</span> <span class="val" id="info-dep">12</span></li>
-                        <li><span class="label">Status:</span> <span class="val status-active">Active</span></li>
-                    </ul>
-                    
-                    <div class="desc-box">
-                        <h4>DESCRIPTION</h4>
-                        <p id="info-desc">This service handles user registration, login, logout, password reset and JWT token management.</p>
-                    </div>
-                    
-                    <button class="view-code-btn">View Code</button>
-                </div>
-                <!-- AUTO DOCUMENTATION -->
-                <div class="analytics-section">
-                    <div class="analytics-header">AUTO DOCUMENTATION</div>
-                    <ul class="docs-list">
-                        <li>
-                            <i class="fas fa-file-alt doc-icon"></i>
-                            <div class="doc-info">
-                                <h4>README.md</h4>
-                                <p>Auto generated</p>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-file-code doc-icon"></i>
-                            <div class="doc-info">
-                                <h4>API Documentation</h4>
-                                <p>Auto generated</p>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-database doc-icon"></i>
-                            <div class="doc-info">
-                                <h4>Database Schema</h4>
-                                <p>Auto generated</p>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-project-diagram doc-icon"></i>
-                            <div class="doc-info">
-                                <h4>Architecture Doc</h4>
-                                <p>Auto generated</p>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-server doc-icon"></i>
-                            <div class="doc-info">
-                                <h4>Deployment Guide</h4>
-                                <p>Auto generated</p>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-book doc-icon"></i>
-                            <div class="doc-info">
-                                <h4>User Guide</h4>
-                                <p>Auto generated</p>
-                            </div>
-                        </li>
-                    </ul>
-                    <button id="download-docs-btn" class="primary-btn" style="margin-top: 15px; padding: 10px;">Download All</button>
-                </div>
-                <!-- AI AGENTS -->
-                <div class="analytics-section">
-                    <div class="analytics-header">AI AGENTS</div>
-                    <ul class="agents-list">
-                        <li onclick="activateAgent('Architecture Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #3a7bd5, #00d2ff);"><i class="fas fa-project-diagram"></i></div>
-                            <div class="agent-info">
-                                <h4>Architecture Agent</h4>
-                                <p>Explains system architecture</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Backend Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #6c5ce7, #a29bfe);"><i class="fas fa-server"></i></div>
-                            <div class="agent-info">
-                                <h4>Backend Agent</h4>
-                                <p>Explains backend logic</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Frontend Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);"><i class="fas fa-desktop"></i></div>
-                            <div class="agent-info">
-                                <h4>Frontend Agent</h4>
-                                <p>Explains UI/UX & components</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Database Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #00b894, #55efc4);"><i class="fas fa-database"></i></div>
-                            <div class="agent-info">
-                                <h4>Database Agent</h4>
-                                <p>Explains DB schema & relations</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Security Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #05c46b, #0be881);"><i class="fas fa-shield-alt"></i></div>
-                            <div class="agent-info">
-                                <h4>Security Agent</h4>
-                                <p>Finds vulnerabilities</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Performance Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #ff5e62, #ff9966);"><i class="fas fa-tachometer-alt"></i></div>
-                            <div class="agent-info">
-                                <h4>Performance Agent</h4>
-                                <p>Detects bottlenecks</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Documentation Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #eb3349, #f45c43);"><i class="fas fa-file-alt"></i></div>
-                            <div class="agent-info">
-                                <h4>Documentation Agent</h4>
-                                <p>Generates docs</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Refactoring Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #f39c12, #f1c40f);"><i class="fas fa-code"></i></div>
-                            <div class="agent-info">
-                                <h4>Refactoring Agent</h4>
-                                <p>Suggests improvements</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Testing Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #e1b12c, #fbc531);"><i class="fas fa-vial"></i></div>
-                            <div class="agent-info">
-                                <h4>Testing Agent</h4>
-                                <p>Generates test cases</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Deployment Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #0984e3, #74b9ff);"><i class="fas fa-cloud-upload-alt"></i></div>
-                            <div class="agent-info">
-                                <h4>Deployment Agent</h4>
-                                <p>Explains CI/CD & infra</p>
-                            </div>
-                        </li>
-                        <li onclick="activateAgent('Business Logic Agent')">
-                            <div class="agent-icon" style="background: linear-gradient(135deg, #636e72, #b2bec3);"><i class="fas fa-briefcase"></i></div>
-                            <div class="agent-info">
-                                <h4>Business Logic Agent</h4>
-                                <p>Explains flows & logic</p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </aside>
-        </main>
-    </div>
-
-    <!-- Deep Analysis Slide-in Panel -->
-    <div id="da-slider" class="slide-panel">
-        <div class="slide-header">
-            <h2>Deep Architecture Analysis</h2>
-            <button id="close-slider-btn"><i class="fas fa-times"></i></button>
         </div>
-        <div id="da-loading" class="da-loading active">
-            <div class="pulse-loader"></div>
-            <p>Llama-3.3-70B is analyzing the architecture deep structure...</p>
-        </div>
-        <div class="da-grid" id="da-grid" style="display: none;">
-            
-            <!-- NEW: Executive Summary for Managers -->
-            <div class="da-executive-summary" id="da-summary-box">
-                <div class="summary-header">
-                    <i class="fas fa-robot"></i> 
-                    <span>AI Executive Project Summary</span>
-                </div>
-                <p id="da-summary-text">Analyzing project architecture...</p>
-            </div>
-            
-            <div class="da-cols-wrapper">
+<div class="da-cols-wrapper">
                 <section class="da-col" style="animation-delay: 0.1s">
                     <div class="da-col-header">BUSINESS FLOW</div>
                     <div class="da-col-content" id="col-business"></div>

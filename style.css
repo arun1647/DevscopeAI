@@ -309,7 +309,7 @@ body, html {
 /* --- RIGHT INFO PANEL --- */
 .info-panel {
     position: absolute; right: 20px; top: 20px; bottom: 20px;
-    width: 320px; background: rgba(15, 15, 25, 0.85);
+    width: 250px; background: rgba(15, 15, 25, 0.85);
     backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05);
     border-radius: 16px; padding: 25px; z-index: 10;
     display: flex; flex-direction: column;
