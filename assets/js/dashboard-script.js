@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 const rawRes = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${f.path}`);
                                 if(rawRes.ok) {
                                     const text = await rawRes.text();
-                                    return `\n--- FILE: ${f.path} ---\n${text.substring(0, 3000)}`; // limit per file
+                                    return `\n--- FILE: ${f.path} ---\n${text.substring(0, 500)}`; // limit per file
                                 }
                                 return "";
                             });
@@ -152,7 +152,7 @@ Repo: ${repoData.name}
 Lang: ${mainLang}
 Topics: ${topics.join(", ")}
 File Tree (Top 100): ${files.join(", ")}
-README: ${readmeText.substring(0, 3000)}
+README: ${readmeText.substring(0, 500)}
 ${codeContext}`;
 
                         const groqRes = await fetch("/api/chat", {
@@ -681,7 +681,7 @@ ${codeContext}`;
 5. "techStack": array of 5 objects { "category": "Frontend", "tech": "React, Tailwind" }
 
 Context: Repo ${owner}/${repo}
-${(window.aiCodeContext || '').substring(0, 1500)}`;
+${(window.aiCodeContext || '').substring(0, 500)}`;
 
                 
                 
