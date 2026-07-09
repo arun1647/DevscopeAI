@@ -624,7 +624,7 @@ ${codeContext}`;
             const data = await res.json();
             document.querySelector(".typing-indicator")?.remove();
             
-            if(data.error) throw new Error(data.error.message);
+            if(data.error) throw new Error(data.error.message || data.error);
             
             const aiReply = data.choices[0].message.content;
             chatHistory.push({ role: "assistant", content: aiReply });
@@ -870,7 +870,7 @@ ${window.aiCodeContext || ''}`;
                 });
 
                 const groqData = await groqRes.json();
-                if(groqData.error) throw new Error(groqData.error.message);
+                if(groqData.error) throw new Error(groqData.error.message || groqData.error);
                 
                 let contentStr = groqData.choices[0].message.content;
                 const jsonMatch = contentStr.match(/\{[\s\S]*\}/);
@@ -971,7 +971,7 @@ ${window.aiCodeContext || ''}`;
             });
 
             const groqData = await groqRes.json();
-            if(groqData.error) throw new Error(groqData.error.message);
+            if(groqData.error) throw new Error(groqData.error.message || groqData.error);
             
             let contentStr = groqData.choices[0].message.content;
             
@@ -1032,7 +1032,7 @@ window.generateSingleDoc = async function(title, type) {
         });
 
         const groqData = await groqRes.json();
-        if(groqData.error) throw new Error(groqData.error.message);
+        if(groqData.error) throw new Error(groqData.error.message || groqData.error);
         
         let contentStr = groqData.choices[0].message.content;
         
