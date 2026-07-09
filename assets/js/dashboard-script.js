@@ -138,8 +138,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     // --- REAL AI GROQ INTEGRATION ---
                     try {
-                        const groqApiKey = getGroqApiKey();
-                        if (!groqApiKey) throw new Error("API Key required");
+                        
+                        
                         const prompt = `You are a Senior Software Architecture Analyzer. Analyze the repository details, README, File Tree, and Actual Source Code Samples.
 Return ONLY a valid JSON object with:
 1. "nodes": array of architectural components present. Choose exact IDs from: ["frontend", "backend", "api", "database", "docker", "cicd", "cloud", "ai", "blockchain", "security", "redis"]. Each object must have: "id", "tech", and "desc".
@@ -155,10 +155,10 @@ File Tree (Top 100): ${files.join(", ")}
 README: ${readmeText.substring(0, 3000)}
 ${codeContext}`;
 
-                        const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                        const groqRes = await fetch("/api/chat", {
                             method: "POST",
                             headers: {
-                                "Authorization": `Bearer ${groqApiKey}`,
+                                
                                 "Content-Type": "application/json"
                             },
                             body: JSON.stringify({
@@ -607,12 +607,12 @@ ${codeContext}`;
         chatMessages.scrollTop = chatMessages.scrollHeight;
         
         try {
-            const groqApiKey = getGroqApiKey();
-            if (!groqApiKey) throw new Error("API Key required");
-            const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            
+            
+            const res = await fetch("/api/chat", {
                 method: "POST",
                 headers: {
-                    "Authorization": `Bearer ${groqApiKey}`,
+                    
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
@@ -683,11 +683,11 @@ ${codeContext}`;
 Context: Repo ${owner}/${repo}
 ${(window.aiCodeContext || '').substring(0, 1500)}`;
 
-                const groqApiKey = getGroqApiKey();
-                if (!groqApiKey) throw new Error("API Key required");
-                const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                
+                
+                const res = await fetch("/api/chat", {
                     method: "POST",
-                    headers: { "Authorization": `Bearer ${groqApiKey}`, "Content-Type": "application/json" },
+                    headers: {  "Content-Type": "application/json" },
                     body: JSON.stringify({
                         model: "llama-3.1-8b-instant",
                         messages: [{ role: "user", content: prompt }],
@@ -849,17 +849,17 @@ ${(window.aiCodeContext || '').substring(0, 1500)}`;
             downloadDocsBtn.disabled = true;
             
             try {
-                const groqApiKey = getGroqApiKey();
-                if (!groqApiKey) throw new Error("API Key required");
+                
+                
                 const prompt = `Based on this project summary: '${window.aiProjectSummary.substring(0, 1000)}', generate full markdown documentation for this project.
 Return ONLY a JSON object with 6 keys: "readme", "api", "database", "architecture", "deployment", "userGuide". 
 Each key should contain a formatted Markdown string (with headers, bullet points, code blocks) representing that document. Keep each document concise but professional (about 200 words each).
 ${window.aiCodeContext || ''}`;
 
-                const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                const groqRes = await fetch("/api/chat", {
                     method: "POST",
                     headers: {
-                        "Authorization": `Bearer ${groqApiKey}`,
+                        
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
@@ -951,17 +951,17 @@ ${window.aiCodeContext || ''}`;
             messages.innerHTML += `<div class="message ai-message"><div class="msg-content"><i class="fas fa-circle-notch fa-spin"></i> Analyzing...</div></div>`;
             messages.scrollTop = messages.scrollHeight;
             
-            const groqApiKey = getGroqApiKey();
-            if (!groqApiKey) throw new Error("API Key required");
+            
+            
             const prompt = `Act as the ${agentName}. You are a senior engineer analyzing this software project. 
 Here is the project summary: '${window.aiProjectSummary}'.
 Provide a 2-3 paragraph detailed analysis of the project from the specific perspective of your role (e.g., if you are the Database Agent, focus on the schema. If Security, focus on vulnerabilities). Keep it concise, formatted in markdown.
 ${window.aiCodeContext || ''}`;
 
-            const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            const groqRes = await fetch("/api/chat", {
                 method: "POST",
                 headers: {
-                    "Authorization": `Bearer ${groqApiKey}`,
+                    
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
@@ -1015,14 +1015,14 @@ window.generateSingleDoc = async function(title, type) {
     messages.scrollTop = messages.scrollHeight;
     
     try {
-        const groqApiKey = getGroqApiKey();
-        if (!groqApiKey) throw new Error("API Key required");
+        
+        
         const prompt = `Based on the project summary: '${window.aiProjectSummary}', generate a complete, professional, and detailed ${title} in Markdown format.\nContext: ${window.aiCodeContext || 'No specific code context available.'}\n\nReturn ONLY the pure markdown content. Do not include any JSON or conversational text.`;
 
-        const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        const groqRes = await fetch("/api/chat", {
             method: "POST",
             headers: {
-                "Authorization": `Bearer ${groqApiKey}`,
+                
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
