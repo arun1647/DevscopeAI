@@ -1,15 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    function getGroqApiKey() {
-        if (typeof CONFIG_GROQ_API_KEY !== 'undefined' && CONFIG_GROQ_API_KEY) {
-            return CONFIG_GROQ_API_KEY;
-        }
-        let key = localStorage.getItem("groqApiKey");
-        if (!key) {
-            key = prompt("Please enter your Groq API Key to enable AI features:");
-            if (key) localStorage.setItem("groqApiKey", key);
-        }
-        return key;
-    }
+    // getGroqApiKey removed, now using /api/chat
     
     // --- 1. User Info ---
     const username = sessionStorage.getItem("devscope_username") || "User";
